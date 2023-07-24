@@ -5,24 +5,23 @@ body {
 main {
   width: 100%;
   height: 100vh;
-  display: flex;
+  display: block;
+  overflow: hidden;
 }
 
 section {
-  flex-grow: 1;
+  float: left;
 }
 
 #prompts {
   width: 300px;
-  min-width: 300px;
   height: 100vh;
   background-color: #333;
   color: #eee;
-  border-right: 5px solid #444;
 }
 
 #chat {
-  width: 100%;
+  width: calc(100vw - 300px);
   height: 100vh;
   background-color: #eee;
   color: #333;
@@ -35,7 +34,6 @@ section {
   padding:0.5em;
   border: 2px solid #eee;
   border-radius: 5px;
-  font-size: 110%;
   background-color: #333;
   color: #eee;
   font-weight: bold;
@@ -51,16 +49,73 @@ section {
   color: #eee;
 }
 
+#content, #write {
+  max-width: 1000px;
+  float: none;
+  margin: 15 auto;
+}
+
 #content {
-  height: 90%;
+  height: 75%;
+  overflow: scroll;
+}
+
+
+#write, #content {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  align-items: stretch;
+  font-size: 80%;
+}
+
+#content label {
+  margin: 0.25em 0;
+  display: block;
+}
+
+#content textarea, #content input {
+  padding: 10px;
+  flex-grow: 1;
+  width: 100%;
+  resize: none;
+  outline: none;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+}
+
+
+#write button {
+  width: 100%;
+  padding:0.5em;
+  border: 2px solid #eee;
+  border-radius: 5px;
+  background-color: #eee;
+  color: #333;
+  font-weight: bold;
+}
+
+#write button:hover {
+  background-color: #444;
+  color: #eee;
+}
+
+#write button:active {
+  background-color: #eee;
+  color: #333;
 }
 
 #write textarea {
   width: 100%;
-  height: 10%;
+  height: 3em;
   resize: none;
+  font-size: 120%;
   outline: none;
   border: 0;
-  border-top: 5px solid #444;
-  margin: 0;
 }

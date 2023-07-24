@@ -1,0 +1,56 @@
+<section id="content">
+  <div>
+    <label for="prompt">Prompt</label>
+    <textarea type="text" name="prompt" rows=3 x-model="parameters.prompt"></textarea>
+  </div>
+
+  <div>
+    <label for="user">User</label>
+    <input type="text" name="user" x-model="parameters.user" />
+  </div>
+
+  <div>
+    <label for="bot">Character</label>
+    <input type="text" name="char" x-model="parameters.character" />
+  </div>
+
+  <div>
+    <label for="template">Prompt template</label>
+    <textarea id="template" name="template" rows=3 x-model="parameters.template" ></textarea>
+  </div>
+
+  <div>
+    <label for="template">Chat history template</label>
+    <textarea id="template" name="historyTemplate" rows=1 x-model="parameters.historyTemplate" ></textarea>
+  </div>
+
+  <div>
+    <label for="temperature">Temperature</label>
+    <input type="range" id="temperature" min="0.0" max="1.0" step="0.01" name="temperature" x-model="parameters.temperature" />
+    <span x-text="parameters.temperature"></span>
+  </div>
+
+  <div>
+    <label for="nPredict">Predictions</label>
+    <input type="range" id="nPredict" min="1" max="2048" step="1" name="n_predict" x-model="parameters.n_predict"/>
+    <span x-text="parameters.n_predict"></span>
+  </div>
+
+  <div>
+    <label for="repeat_penalty">Penalize repeat sequence</label>
+    <input type="range" id="repeat_penalty" min="0.0" max="2.0" step="0.01" name="repeat_penalty" x-model="parameters.repeat_penalty" />
+    <span x-text="parameters.repeat_penalty"></span>
+  </div>
+
+  <div>
+    <label for="repeat_last_n">Consider N tokens for penalize</label>
+    <input type="range" id="repeat_last_n" min="0.0" max="2048" name="repeat_last_n" x-model="parameters.repeat_last_n" />
+    <span x-text="parameters.repeat_last_n"></span>
+  </div>
+</section>
+<section id="write">
+  <div x-data="{ message: '' }">
+    <textarea id="message" rows="2" type="text" placeholder="Write a message..." x-model="message"></textarea>
+    <button x-target="#chat" x-get="templates/chat.html" hx-trigger="click">Send</button>
+  </div>
+</section>

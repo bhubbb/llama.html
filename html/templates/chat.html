@@ -1,0 +1,8 @@
+<section id="content">
+</section>
+<section id="write">
+  <div x-data="{ message: '' }">
+    <textarea id="message" rows="2" type="text" placeholder="Write a message..." x-model="message"></textarea>
+    <button x-target="#chat" x-get="templates/chat.html">Send</button>
+  </div>
+</section>
