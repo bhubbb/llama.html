@@ -49,47 +49,58 @@ section {
   color: #eee;
 }
 
-#content, #write {
+#settings, #transcript, #write {
   max-width: 1000px;
   float: none;
   margin: 15 auto;
+  padding: 15px;
 }
 
-#content {
-  height: 75%;
+#settings, #transcript {
+  height: 70%;
   overflow: scroll;
 }
 
 
-#write, #content {
-  padding: 15px;
+#write, #settings {
   background-color: #fff;
   border-radius: 15px;
 }
 
-#content {
+#settings {
   display: flex;
   flex-direction: column;
-  gap: 0.25em;
   align-items: stretch;
-  font-size: 80%;
 }
 
-#content label {
+#settings label {
   margin: 0.25em 0;
   display: block;
 }
 
-#content textarea, #content input {
+#settings textarea, #settings input {
   padding: 10px;
-  flex-grow: 1;
-  width: 100%;
   resize: none;
   outline: none;
   border: 2px solid #ddd;
   border-radius: 10px;
+  width: 100%;
 }
 
+#settings>div {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 15px;
+}
+#settings>div>div {
+  flex-grow: 1;
+  width: 40%
+}
+
+#write {
+  border-top: 3px solid #444;
+}
 
 #write button {
   width: 100%;
@@ -113,7 +124,6 @@ section {
 
 #write textarea {
   width: 100%;
-  height: 3em;
   resize: none;
   font-size: 120%;
   outline: none;

@@ -1,8 +1,27 @@
-<section id="content">
+<section id="transcript" x-data="{ transcript: '' }" x-on:data-emitted.window="transcript = $event.detail.transcript">
+  <article x-html="transcript">
+  </article>
 </section>
 <section id="write">
   <div x-data="{ message: '' }">
-    <textarea id="message" rows="2" type="text" placeholder="Write a message..." x-model="message"></textarea>
+    <textarea id="message" rows="3" type="text" placeholder="Write a message..." x-model="message"></textarea>
     <button x-target="#chat" x-get="templates/chat.html">Send</button>
   </div>
 </section>
+<script type="module">
+import { llama } from '/js/completion.js'
+
+const prompt = `### Instruction:
+Write an example makdown document.
+Reply in simple markdown.
+
+### Response:`
+const response = [];
+for await (const chunk of llama(prompt)) {
+  response.push(chunk.data.content);
+  transcript = { transcript: showdown.makeHtml(response.join('')) };
+  console.log(transcript);
+  const transcript_event = new CustomEvent('data-emitted', { detail: transcript });
+  window.dispatchEvent(transcript_event);
+}
+</script>
