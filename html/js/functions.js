@@ -124,13 +124,17 @@ async function chat(msg = '') {
     character: parameters.character,
   });
 
-  const response = [];
+  response = [ transcript ];
+  response.push(`\n\n${parameters.user}:\n\n${msg}\n\n${parameters.character}:\n\n`)
   for await (const chunk of llama(prompt, llama_params)) {
-    response.push(chunk.data.content);
-    transcript = { transcript: showdown.makeHtml(response.join('')) };
-    console.log(transcript);
-    const transcript_event = new CustomEvent('data-emitted', { detail: transcript });
+    const content = chunk.data.content;
+    response.push(content);
+    const html = showdown.makeHtml(response.join(''));
+    const transcript_event = new CustomEvent('data-emitted', { detail: { transcript: html } });
     window.dispatchEvent(transcript_event);
   }
+  transcript += response.join('');
+
+  localStorage.setItem('transcript', transcript);
 
 }

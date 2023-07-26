@@ -1,5 +1,5 @@
 var showdown = new showdown.Converter();
-var transcript = [];
+var transcript = '';
 var message = '';
 let generation_settings = null;
 
