@@ -1,15 +1,22 @@
 <section 
   id="settings"
-  x-data="{ parameters: parameters }"
-  x-init="parameters = JSON.parse(localStorage.getItem('parameters')) || parameters"
+  x-data="{ 
+    parameters: paramDefaults,
+    session: session,
+  }"
+  x-init="
+    parameters = JSON.parse(localStorage.getItem('parameters')) || parameters;
+    session    = JSON.parse(localStorage.getItem('session'))    || session;
+    localStorage.removeItem('chat');
+  "
 >
   <label for="prompt">Prompt</label>
   <textarea 
     type="text"
     name="prompt"
     rows=5 
-    x-model="parameters.prompt"
-    x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
+    x-model="session.prompt"
+    x-on:change="localStorage.setItem('session', JSON.stringify(session))"
   ></textarea>
   <div>
     <div>
@@ -17,8 +24,8 @@
       <input 
         type="text" 
         name="user" 
-        x-model="parameters.user" 
-        x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
+        x-model="session.user" 
+        x-on:change="localStorage.setItem('session', JSON.stringify(session))"
       />
     </div>
     <div>
@@ -27,7 +34,7 @@
         type="text" 
         name="char" 
         x-model="parameters.character"
-        x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
+        x-on:change="localStorage.setItem('session', JSON.stringify(session))"
       />
     </div>
   </div>
@@ -36,16 +43,16 @@
     id="template" 
     name="template" 
     rows=5 
-    x-model="parameters.template" 
-    x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
+    x-model="session.template" 
+    x-on:change="localStorage.setItem('session', JSON.stringify(session))"
   ></textarea>
   <label for="template">Chat history template</label>
   <textarea 
     id="template" 
     name="historyTemplate" 
     rows=1 
-    x-model="parameters.historyTemplate" 
-    x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
+    x-model="session.historyTemplate" 
+    x-on:change="localStorage.setItem('session', JSON.stringify(session))"
   ></textarea>
   <div>
     <div>

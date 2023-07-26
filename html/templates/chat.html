@@ -1,10 +1,37 @@
-<section id="transcript" x-data="{ transcript: '' }" x-on:data-emitted.window="transcript = $event.detail.transcript" x-init="chat(localStorage.getItem('message'))">
-  <article x-html="transcript">
+<section 
+  id="transcript"
+  x-data="{ 
+    html: '',
+    chat: {},
+    message: '',
+  }"
+  x-on:chat-updated.window="
+    chat = $event.detail.chat;
+    html = $event.detail.html;
+  "
+  x-init="
+    chat    = JSON.parse(localStorage.getItem('chat')) || chat;
+    message = localStorage.getItem('message') || message;
+    llchat(message, chat);
+  "
+>
+  <article x-html="html">
   </article>
 </section>
-<section id="write">
-  <div x-data="{ message: '' }">
-    <textarea id="message" type="text" placeholder="Write a message..." x-model="message" x-on:keyup.enter="chat(message)" x-on:keydown.enter="preventNewline"></textarea>
-    <button x-on:click="chat(message)">Send</button>
+<section 
+  id="write"
+  x-data="{ message: '', chat: {} }"
+  x-init="chat = JSON.parse(localStorage.getItem('chat'))"
+  x-on:chat-updated.window="chat = $event.detail.chat"
+>
+  <div>
+    <textarea 
+      id="message" 
+      type="text" 
+      placeholder="Write a message..." 
+      x-model="message" 
+      x-on:keyup.enter="llchat(message, chat); message = ''" 
+      x-on:keydown.enter="preventNewline"></textarea>
+    <button x-on:click="llchat(message, chat)">Send</button>
   </div>
 </section>

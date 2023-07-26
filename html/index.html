@@ -15,8 +15,16 @@
 	</head>
   <body>
     <main>
-      <section id="prompts">
+      <section 
+        id="prompts" 
+        x-data="{ chats: [] }" 
+        x-init="chats = JSON.parse(localStorage.getItem('chats')) || chats" 
+        x-on:chats-updated.window="chats = $event.detail.chats"
+      >
         <button hx-target="#chat" hx-get="templates/settings.html">New Prompt</button>
+        <template x-for="chat in chats">
+          <button x-text="chat.name" x-on:click="localStorage.setItem('chat', chat);" hx-target="#chat" hx-get="templates/chat.html"></button>
+        </template>
       </section>
       <section id="chat" hx-get="templates/settings.html" hx-trigger="load">
       </section>

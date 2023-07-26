@@ -9,6 +9,17 @@ function template(template, values) {
   return template.replace(/\{\{(.*?)\}\}/g, (_, key) => values[key.trim()]);
 }
 
+function genId(length = 10) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charactersLength);
+    result += characters.charAt(randomIndex);
+  }
+  return result;
+}
+
 /*
 const prompt = `### Instruction:
 Write an example makdown document.
@@ -98,49 +109,64 @@ async function* llama(prompt, params = {}, config = {}) {
   return content;
 }
 
-async function chat(msg = '') {
+function new_chat() {
+  chats = JSON.parse(localStorage.getItem('chats')) || [];
+  id = genId();
+  chat = {
+    name: '',
+    id: id,
+    transcript: '',
+    session: JSON.parse(localStorage.getItem('session')) || session,
+    parameters: JSON.parse(localStorage.getItem('parameters')) || paramDefaults,
+  }
+  chats.push(chat);
+  localStorage.setItem('chat', JSON.stringify(chat));
+  localStorage.setItem('chats', JSON.stringify(chats));
+  // Push event to Alpine.js
+  const chats_event = new CustomEvent('chats-updated', { detail: { chats: chats } });
+  window.dispatchEvent(chats_event);
+  return chat;
+}
+
+async function llchat(msg = '', chat = {}) {
+  if (chat.id === undefined) {
+    chat = new_chat();
+  }
   // const request = llama("Tell me a joke", {n_predict: 800})
-  const parameters = JSON.parse(localStorage.getItem('parameters')) || parameters
+  const parameters = chat.parameters;
   const stop       = [
     "</s>", 
-    `${parameters.character}:`, 
-    `${parameters.user}:`,
+    `${chat.session.character}:`, 
+    `${chat.session.user}:`,
   ];
 
-  const llama_params = {
-    stream: parameters.stream,
-    stop: stop, 
-    n_predict: parseInt(parameters.n_predict),
-    temperature: parseFloat(parameters.temperature),
-    repeat_last_n: parseInt(parameters.repeat_last_n),
-    repeat_penalty: parseInt(parameters.repeat_penalty),
-    top_k: 40,
-    top_p: 0.5,
-  };
-  console.log(llama_params);
-
-  const history = template(parameters.historyTemplate, {
-    name:    parameters.user,
+  const instruction = template(chat.session.historyTemplate, {
+    name:    chat.session.user,
     message: msg,
   });
 
-  const prompt = template(parameters.template, {
-    prompt:    parameters.prompt,
-    history:   history,
-    character: parameters.character,
+  const prompt = template(chat.session.template, {
+    prompt:      chat.session.prompt,
+    history:     chat.transcript,
+    instruction: instruction,
+    character:   chat.session.character,
   });
 
-  response = [ transcript ];
-  response.push(`\n\n${parameters.user}:\n\n${msg}\n\n${parameters.character}:\n\n`)
-  for await (const chunk of llama(prompt, llama_params)) {
-    const content = chunk.data.content;
-    response.push(content);
-    const html = showdown.makeHtml(response.join(''));
-    const transcript_event = new CustomEvent('data-emitted', { detail: { transcript: html } });
-    window.dispatchEvent(transcript_event);
+  chat.transcript += `\n\n${chat.session.user}:\n\n${msg}\n\n${chat.session.character}:\n\n`
+  let html = showdown.makeHtml(chat.transcript);
+  let chat_event = new CustomEvent('chat-updated', { detail: { html: html, chat: chat } });
+  window.dispatchEvent(chat_event);
+  console.log(prompt);
+  for await (const chunk of llama(prompt, chat.parameters)) {
+    chat.transcript += chunk.data.content;
+    html = showdown.makeHtml(chat.transcript);
+    chat_event = new CustomEvent('chat-updated', { detail: { html: html, chat: chat } });
+    window.dispatchEvent(chat_event);
   }
-  transcript += response.join('');
 
-  localStorage.setItem('transcript', transcript);
+  chats = chats.filter(c => c.id !== chat.id);
+  chats.push(chat);
+  localStorage.setItem('chat', JSON.stringify(chat));
+  localStorage.setItem('chats', JSON.stringify(chats));
 
 }
