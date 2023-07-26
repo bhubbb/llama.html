@@ -4,7 +4,7 @@
 </section>
 <section id="write">
   <div x-data="{ message: '' }">
-    <textarea id="message" type="text" placeholder="Write a message..." x-model="message"></textarea>
-    <button x-on:click="chat(message)" x-on:keydown.enter="chat(message)">Send</button>
+    <textarea id="message" type="text" placeholder="Write a message..." x-model="message" x-on:keyup.enter="chat(message)" x-on:keydown.enter="preventNewline"></textarea>
+    <button x-on:click="chat(message)">Send</button>
   </div>
 </section>

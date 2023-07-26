@@ -1,3 +1,9 @@
+function preventNewline() {
+  const event = window.event || $event;
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  }
+}
 
 function template(template, values) {
   return template.replace(/\{\{(.*?)\}\}/g, (_, key) => values[key.trim()]);
