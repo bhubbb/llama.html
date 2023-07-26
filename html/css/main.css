@@ -67,6 +67,21 @@ section {
   border-radius: 15px;
 }
 
+#transcript {
+  font-size: 120%;
+}
+#transcript pre code {
+  display: block;
+  padding: 1em;
+  border-radius: 3px;
+  background-color: #333;
+  color: #eee;
+}
+#transcript code {
+  font-family: monospace;
+  color: #222;
+}
+
 #settings {
   display: flex;
   flex-direction: column;

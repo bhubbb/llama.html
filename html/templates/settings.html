@@ -9,7 +9,7 @@
     name="prompt"
     rows=5 
     x-model="parameters.prompt"
-    x-on:click="localStorage.setItem('parameters', JSON.stringify(parameters))"
+    x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
   ></textarea>
   <div>
     <div>
@@ -18,7 +18,7 @@
         type="text" 
         name="user" 
         x-model="parameters.user" 
-        x-on:click="localStorage.setItem('parameters', JSON.stringify(parameters))"
+        x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
       />
     </div>
     <div>
@@ -27,7 +27,7 @@
         type="text" 
         name="char" 
         x-model="parameters.character"
-        x-on:click="localStorage.setItem('parameters', JSON.stringify(parameters))"
+        x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
       />
     </div>
   </div>
@@ -37,7 +37,7 @@
     name="template" 
     rows=5 
     x-model="parameters.template" 
-    x-on:click="localStorage.setItem('parameters', JSON.stringify(parameters))"
+    x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
   ></textarea>
   <label for="template">Chat history template</label>
   <textarea 
@@ -45,7 +45,7 @@
     name="historyTemplate" 
     rows=1 
     x-model="parameters.historyTemplate" 
-    x-on:click="localStorage.setItem('parameters', JSON.stringify(parameters))"
+    x-on:change="localStorage.setItem('parameters', JSON.stringify(parameters))"
   ></textarea>
   <div>
     <div>
@@ -107,7 +107,7 @@
 </section>
 <section id="write">
   <div x-data="{ message: '' }">
-    <textarea id="message" type="text" placeholder="Write a message..." x-model="message"></textarea>
+    <textarea id="message" type="text" placeholder="Write a message..." x-model="message" x-on:change="localStorage.setItem('message', message)" ></textarea>
     <button hx-target="#chat" hx-get="templates/chat.html">Send</button>
   </div>
 </section>
