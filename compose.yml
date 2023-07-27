@@ -1,0 +1,14 @@
+version: '3'
+services:
+  llama.html:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llama.html
+    privileged: true
+    volumes:
+      - /ABSOLUTE_PATH_TO_MODEL:/model.bin
+    ports:
+      - "8080:8080"
+    command: "--ctx-size 2048 --host 0.0.0.0"
+
