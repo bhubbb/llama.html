@@ -19,7 +19,7 @@ RUN set -x \
    | awk '{print $3}' \
    | xargs -I '{}' cp -v '{}' /llama.cpp_libs
 
-FROM alpine AS llama.html
+FROM scratch AS llama.html
 
 COPY --from=build \
   /llama.cpp/server \
