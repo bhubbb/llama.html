@@ -23,8 +23,8 @@
         x-model="chats"
       >
         <div>
-          <button hx-target="#chat" hx-get="templates/settings.html">New Prompt</button>
-          <template x-for="chat in chats">
+          <button hx-target="#chat" hx-get="templates/settings.html">New Chat</button>
+          <template x-for="chat in chats" x-bind:key="chat.id">
             <button x-text="chat.name" hx-target="#chat" hx-get="templates/chat.html" hx-trigger="click" x-on:click="localStorage.setItem('chat',JSON.stringify(chat))"></button>
           </template>
         </div>
