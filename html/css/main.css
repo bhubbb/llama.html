@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: system-ui;
 }
 
 main {
@@ -27,6 +28,9 @@ section {
   height: 100vh;
   background-color: #eee;
   color: #333;
+  display: flex;
+  flex-direction: column;
+
 }
 
 #prompts div:first-child {
@@ -47,7 +51,7 @@ section {
   padding:0.5em;
   border: 2px solid #eee;
   border-radius: 5px;
-  background-color: #333;
+  background-color: #444;
   color: #eee;
   font-weight: bold;
 }
@@ -72,6 +76,7 @@ section {
 #settings, #transcript {
   height: 70%;
   overflow: scroll;
+  flex-grow: 1;
 }
 
 
@@ -128,6 +133,7 @@ section {
 
 #write {
   border-top: 3px solid #444;
+  width: 100%;
 }
 
 #write button {

@@ -118,9 +118,9 @@ function delete_all_chats() {
 async function gen_chat_name(chat, message) {
   
   const parameters = {
-    n_predict     : 4,
+    n_predict     : 50,
   };
-  prompt=`${chat.session.user}:\n\nSummarize the following in 4 words or less:\n\n${message}\n\n${chat.session.character}:\n\n`
+  prompt=`${chat.session.user}:\n\nSummarize the following with simple english in a few words:\n\n${chat.transcript}\n\n${chat.session.character}:\n\n`
   for await (const chunk of llama(prompt, parameters)) {
     chat.name += chunk.data.content;
     chats = chats.filter(c => c.id !== chat.id);
