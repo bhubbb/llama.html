@@ -12,7 +12,14 @@ The goal of `llama.html` is to have a _rich_ chat interface, implemented minimal
     - [Showdown](https://showdownjs.com/) for markdown to HTML conversion in the chat transcript
 - `llama.html` is in early stages of development and I am bad at _web_ development (PRs are welcome)
 
+## Screenshots
+
+### Settings page
+
 ![Settings page example](settings.png)
+
+### Chat page
+
 ![Chat page example](chat.png)
 
 ## Usage
