@@ -20,11 +20,17 @@
         x-data="{ chats: [] }" 
         x-init="chats = JSON.parse(localStorage.getItem('chats')) || chats" 
         x-on:chats-updated.window="chats = $event.detail.chats"
+        x-model="chats"
       >
-        <button hx-target="#chat" hx-get="templates/settings.html">New Prompt</button>
-        <template x-for="chat in chats">
-          <button x-text="chat.name" x-on:click="localStorage.setItem('chat', chat);" hx-target="#chat" hx-get="templates/chat.html"></button>
-        </template>
+        <div>
+          <button hx-target="#chat" hx-get="templates/settings.html">New Prompt</button>
+          <template x-for="chat in chats">
+            <button x-text="chat.name" hx-target="#chat" hx-get="templates/chat.html" hx-trigger="click" x-on:click="localStorage.setItem('chat',JSON.stringify(chat))"></button>
+          </template>
+        </div>
+        <div>
+          <button x-on:click="delete_all_chats()">Delete All Chats</button>
+        </div>
       </section>
       <section id="chat" hx-get="templates/settings.html" hx-trigger="load">
       </section>

@@ -113,8 +113,7 @@
   </div>
 </section>
 <section id="write">
-  <div x-data="{ message: '' }">
-    <textarea id="message" type="text" placeholder="Write a message..." x-model="message" x-on:keyup="localStorage.setItem('message', message)" x-on:keydown.enter="preventNewline" ></textarea>
-    <button hx-target="#chat" hx-get="templates/chat.html" hx-trigger="click, keyup[keyCode==13] from:#message" >Send</button>
+  <div>
+    <button hx-target="#chat" hx-get="templates/chat.html" hx-trigger="click, keyup[keyCode==13] from:#message" >Create Chat</button>
   </div>
 </section>

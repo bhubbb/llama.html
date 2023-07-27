@@ -7,12 +7,12 @@
   }"
   x-on:chat-updated.window="
     chat = $event.detail.chat;
-    html = $event.detail.html;
+    html = showdown.makeHtml(chat.transcript);
   "
   x-init="
     chat    = JSON.parse(localStorage.getItem('chat')) || chat;
-    message = localStorage.getItem('message') || message;
-    llchat(message, chat);
+    html    = showdown.makeHtml(chat.transcript)       || html;
+    message = localStorage.getItem('message')          || message;
   "
 >
   <article x-html="html">
@@ -32,6 +32,6 @@
       x-model="message" 
       x-on:keyup.enter="llchat(message, chat); message = ''" 
       x-on:keydown.enter="preventNewline"></textarea>
-    <button x-on:click="llchat(message, chat)">Send</button>
+    <button x-on:click="llchat(message, chat); message =''">Send</button>
   </div>
 </section>

@@ -109,6 +109,30 @@ async function* llama(prompt, params = {}, config = {}) {
   return content;
 }
 
+function delete_all_chats() {
+  localStorage.removeItem('chats');
+  const chats_event = new CustomEvent('chats-updated', { detail: { chats: {} } });
+  window.dispatchEvent(chats_event);
+}
+
+async function gen_chat_name(chat, message) {
+  
+  const parameters = {
+    n_predict     : 4,
+  };
+  prompt=`${chat.session.user}:\n\nSummarize the following in 4 words or less:\n\n${message}\n\n${chat.session.character}:\n\n`
+  for await (const chunk of llama(prompt, parameters)) {
+    chat.name += chunk.data.content;
+    chats = chats.filter(c => c.id !== chat.id);
+    chats.push(chat);
+    const chats_event = new CustomEvent('chats-updated', { detail: { chats: chats } });
+    window.dispatchEvent(chats_event);
+  }
+  localStorage.setItem('chat', JSON.stringify(chat));
+  localStorage.setItem('chats', JSON.stringify(chats));
+
+}
+
 function new_chat() {
   chats = JSON.parse(localStorage.getItem('chats')) || [];
   id = genId();
@@ -129,7 +153,7 @@ function new_chat() {
 }
 
 async function llchat(msg = '', chat = {}) {
-  if (chat.id === undefined) {
+  if (chat === null) {
     chat = new_chat();
   }
   // const request = llama("Tell me a joke", {n_predict: 800})
@@ -156,7 +180,6 @@ async function llchat(msg = '', chat = {}) {
   let html = showdown.makeHtml(chat.transcript);
   let chat_event = new CustomEvent('chat-updated', { detail: { html: html, chat: chat } });
   window.dispatchEvent(chat_event);
-  console.log(prompt);
   for await (const chunk of llama(prompt, chat.parameters)) {
     chat.transcript += chunk.data.content;
     html = showdown.makeHtml(chat.transcript);
@@ -168,5 +191,9 @@ async function llchat(msg = '', chat = {}) {
   chats.push(chat);
   localStorage.setItem('chat', JSON.stringify(chat));
   localStorage.setItem('chats', JSON.stringify(chats));
+
+  if (chat.name === '') {
+    await gen_chat_name(chat, msg);
+  }
 
 }
