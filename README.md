@@ -19,19 +19,19 @@ The goal of `llama.html` is to have a _rich_ chat interface, implemented minimal
 
 1. Get and build `llama.cpp` with the server example
 
-    git clone https://github.com/ggerganov/llama.cpp
-    cd llama.cpp
-    LLAMA_BUILD_SERVER=1 make server
+        git clone https://github.com/ggerganov/llama.cpp
+        cd llama.cpp
+        LLAMA_BUILD_SERVER=1 make server
 
 2. Clone `llama.html`
     
-    git clone https://github.com/bhubbb/llama.HTML
+          git clone https://github.com/bhubbb/llama.HTML
 
 3. Run `server` using the `--path` flag to overwrite the built in HTML
-    
-    ./server \
-      --model ~/llama_models/airoboros-33b-gpt4-1.4.ggmlv3.q4_0.bin \
-      --ctx-size 2048 \
-      --path llama.html/html
+        
+        ./server \
+          --model ~/llama_models/airoboros-33b-gpt4-1.4.ggmlv3.q4_0.bin \
+          --ctx-size 2048 \
+          --path llama.html/html
 
 4. Connect to local server on http://127.0.0.1:8080
