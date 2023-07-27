@@ -25,6 +25,7 @@
         <div>
           <button hx-target="#chat" hx-get="templates/settings.html">New Chat</button>
           <template x-for="chat in chats" x-bind:key="chat.id">
+            <-- I cannot figure out how to make chat.name update -->
             <button x-text="chat.name" hx-target="#chat" hx-get="templates/chat.html" hx-trigger="click" x-on:click="localStorage.setItem('chat',JSON.stringify(chat))"></button>
           </template>
         </div>
